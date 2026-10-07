@@ -1,0 +1,101 @@
+{
+  "ice": {
+    "id": "ice",
+    "label": "ICE",
+    "fullName": "Institution of Civil Engineers",
+    "provisional": false,
+    "sheetName": "ICE CPD log",
+    "headerBlock": [
+      { "key": "name", "label": "Name" },
+      { "key": "roleAndResponsibilities", "label": "Job role and responsibilities" },
+      { "key": "sector", "label": "Engineering sector" }
+    ],
+    "columns": [
+      { "key": "details", "label": "Details of CPD activity", "type": "text", "width": 52 },
+      { "key": "theme", "label": "ICE CPD Framework theme", "type": "text", "width": 30 },
+      { "key": "dates", "label": "Dates", "type": "date", "width": 14 },
+      { "key": "hours", "label": "Effective learning time", "type": "hours", "width": 14 },
+      { "key": "devPlanRef", "label": "Dev. Plan ref", "type": "text", "width": 16 },
+      { "key": "learningPoints", "label": "Key Learning Points", "type": "text", "width": 56 },
+      { "key": "benefits", "label": "Key Benefits/Value added", "type": "text", "width": 56 }
+    ],
+    "themes": {
+      "mandatory": [
+        "Ethical and professional behaviours",
+        "Safety and risk management",
+        "Sustainable development"
+      ],
+      "additional": ["Delivery excellence", "Energy", "Transport", "Water"]
+    },
+    "themeSlugs": {
+      "safety-risk": { "theme": "Safety and risk management", "exact": true },
+      "ethics": { "theme": "Ethical and professional behaviours", "exact": false },
+      "ethics-professional": { "theme": "Ethical and professional behaviours", "exact": false },
+      "sustainability": { "theme": "Sustainable development", "exact": false },
+      "sustainable-development": { "theme": "Sustainable development", "exact": false },
+      "delivery": { "theme": "Delivery excellence", "exact": false },
+      "delivery-excellence": { "theme": "Delivery excellence", "exact": false },
+      "energy": { "theme": "Energy", "exact": false },
+      "transport": { "theme": "Transport", "exact": false },
+      "water": { "theme": "Water", "exact": false }
+    },
+    "benefitPrompts": [
+      { "key": "helped", "label": "How it helped" },
+      { "key": "future", "label": "How I will use it in future" },
+      { "key": "nextYear", "label": "How it will influence next year's plan" }
+    ],
+    "rules": {
+      "mandatoryEachYear": 1,
+      "rollingYears": 3,
+      "hoursTarget": null
+    },
+    "rulesText": "ICE asks for at least one mandatory theme to be recorded each year, and all three over a rolling three years. ICE sets no hours target for qualified members, so hours are shown for information only.",
+    "exportNote": "ICE's CPD tool has no import feature. This export is for your own records, or to attach, and to copy across by hand."
+  },
+  "istructe": {
+    "id": "istructe",
+    "label": "IStructE",
+    "fullName": "Institution of Structural Engineers",
+    "provisional": true,
+    "sheetName": "IStructE CPD log (provisional)",
+    "provisionalNote": "PROVISIONAL: these fields are based on published guidance, not on the real My Account form. Compare with the form before you rely on this layout.",
+    "columns": [
+      { "key": "date", "label": "Date", "type": "date", "width": 14 },
+      { "key": "title", "label": "Activity title", "type": "text", "width": 52 },
+      { "key": "category", "label": "Category", "type": "text", "width": 28 },
+      { "key": "hours", "label": "Hours", "type": "hours", "width": 10 },
+      { "key": "structuralSafety", "label": "Structural safety (Y/N)", "type": "yesno", "width": 14 },
+      { "key": "sustainability", "label": "Sustainability (Y/N)", "type": "yesno", "width": 14 },
+      { "key": "developmentGained", "label": "Development gained", "type": "text", "width": 64 }
+    ],
+    "categories": [
+      "Work-based learning",
+      "Self-directed study",
+      "Courses, events and seminars",
+      "Horizon broadening"
+    ],
+    "rules": {
+      "annualHours": 30,
+      "structuralSafetyHours": 6,
+      "sustainabilityHours": 6,
+      "rollingYears": 3,
+      "rollingHours": 90
+    },
+    "rulesText": "Provisional targets: 30 hours a year including 6 on structural safety and 6 on sustainability, and 90 hours over a rolling three years.",
+    "exportNote": "Provisional layout. Check it against your IStructE My Account CPD form before you copy entries across."
+  },
+  "custom": {
+    "id": "custom",
+    "label": "Custom",
+    "fullName": "Your own fields",
+    "provisional": false,
+    "sheetName": "Custom CPD log",
+    "baseColumns": [
+      { "key": "date", "label": "Date", "type": "date", "width": 14 },
+      { "key": "title", "label": "Activity", "type": "text", "width": 52 },
+      { "key": "hours", "label": "Hours", "type": "hours", "width": 10 }
+    ],
+    "maxCustomFields": 10,
+    "exportNote": "The columns after Hours use the field names you set in Settings."
+  }
+}

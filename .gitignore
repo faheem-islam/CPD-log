@@ -1,0 +1,16 @@
+node_modules
+.next
+.data
+out
+coverage
+test-results
+playwright-report
+.env
+.env.local
+.env.*.local
+*.tsbuildinfo
+next-env.d.ts
+eval/report.md
+.vercel
+screenshots
+*.zip
