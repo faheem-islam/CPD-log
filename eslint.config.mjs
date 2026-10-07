@@ -16,5 +16,10 @@ export default tseslint.config(
       "no-console": ["error", { allow: ["warn", "error"] }],
     },
   },
+  {
+    // typescript-eslint 8.71 misreports `export default x` in plain JS config files as an unused variable.
+    files: ["**/*.mjs"],
+    rules: { "@typescript-eslint/no-unused-vars": "off", "no-unused-vars": ["error", { argsIgnorePattern: "^_" }] },
+  },
   { files: ["scripts/**", "tests/**", "eval/**"], rules: { "no-console": "off" } },
 );

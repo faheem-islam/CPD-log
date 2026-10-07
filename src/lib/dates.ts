@@ -41,7 +41,7 @@ export function parseUkDate(input: string | null | undefined): string | null {
   const iso = ISO_DATE_RE.exec(s);
   if (iso) return toIso(Number(iso[1]), Number(iso[2]), Number(iso[3]));
 
-  const numeric = /(?<!\d)(\d{1,2})[/.\-](\d{1,2})[/.\-](\d{4}|\d{2})(?!\d)/.exec(s);
+  const numeric = /(?<!\d)(\d{1,2})[/.-](\d{1,2})[/.-](\d{4}|\d{2})(?!\d)/.exec(s);
   if (numeric) return toIso(fullYear(Number(numeric[3])), Number(numeric[2]), Number(numeric[1]));
 
   const dayFirst = /(?<!\d)(\d{1,2})(?:st|nd|rd|th)?\s+(?:of\s+)?([A-Za-z]{3,9})\.?,?\s+(\d{4})(?!\d)/.exec(s);
