@@ -1228,3 +1228,19 @@ describe("hand-edit tolerance", () => {
     });
   });
 });
+
+describe("getLocalAccountById", () => {
+  it("finds a real account, and never creates or resurrects one", async () => {
+    const { mkdtempSync } = await import("node:fs");
+    const { tmpdir } = await import("node:os");
+    const path = await import("node:path");
+    const { findOrCreateLocalAccount, getLocalAccountById, deleteLocalAccount } = await import("@/lib/store/local");
+    const file = path.join(mkdtempSync(path.join(tmpdir(), "cpd-acc-")), "db.json");
+    const acc = await findOrCreateLocalAccount("Someone@Example.com", file);
+    expect(await getLocalAccountById(acc.id, file)).toEqual({ id: acc.id, email: "someone@example.com" });
+    expect(await getLocalAccountById("00000000-0000-4000-8000-000000000000", file)).toBeNull();
+    expect(await getLocalAccountById("x", file)).toBeNull();
+    await deleteLocalAccount(acc.id, file);
+    expect(await getLocalAccountById(acc.id, file)).toBeNull();
+  });
+});

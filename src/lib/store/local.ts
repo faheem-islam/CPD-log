@@ -577,6 +577,21 @@ export async function findOrCreateLocalAccount(email: string, filePath?: string)
   });
 }
 
+/**
+ * The account behind a session cookie, or null when there is none (never signed in, or deleted).
+ * Read only: it never creates anything, so a stale cookie cannot bring a deleted account back.
+ */
+export async function getLocalAccountById(userId: string, filePath?: string): Promise<{ id: string; email: string } | null> {
+  if (typeof userId !== "string" || userId.length < 8 || userId.length > 64) return null;
+  const file = resolveLocalDbPath(filePath);
+  return transact(file, () => new Date(), (db) => {
+    for (const [email, account] of db.accounts) {
+      if (account.id === userId) return { result: { id: account.id, email }, changed: false };
+    }
+    return { result: null, changed: false };
+  });
+}
+
 // ---------------------------------------------------------------------------------------------
 // Deleting an account
 

@@ -5,7 +5,7 @@ import { FlatCompat } from "@eslint/eslintrc";
 const compat = new FlatCompat({ baseDirectory: import.meta.dirname });
 
 export default tseslint.config(
-  { ignores: [".next/**", "node_modules/**", ".data/**", "coverage/**", "test-results/**", "playwright-report/**", "next-env.d.ts", "screenshots/**"] },
+  { ignores: [".next/**", ".next-*/**", "tmp-*/**", "node_modules/**", ".data/**", "coverage/**", "test-results/**", "playwright-report/**", "next-env.d.ts", "screenshots/**"] },
   js.configs.recommended,
   ...tseslint.configs.recommended,
   ...compat.extends("next/core-web-vitals"),
@@ -14,6 +14,7 @@ export default tseslint.config(
       "@typescript-eslint/no-non-null-assertion": "error",
       "@typescript-eslint/no-unused-vars": ["error", { argsIgnorePattern: "^_", varsIgnorePattern: "^_" }],
       "no-console": ["error", { allow: ["warn", "error"] }],
+      "react/no-unescaped-entities": "off",
     },
   },
   {

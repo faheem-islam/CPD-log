@@ -1,5 +1,6 @@
 node_modules
 .next
+.next-*
 .data
 out
 coverage
@@ -14,3 +15,4 @@ eval/report.md
 .vercel
 screenshots
 *.zip
+tmp-*/

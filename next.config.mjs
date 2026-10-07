@@ -7,6 +7,8 @@ const securityHeaders = [
 ];
 
 const nextConfig = {
+  // Lets several dev servers run side by side in separate folders. Defaults to .next.
+  distDir: process.env.NEXT_DIST_DIR || ".next",
   reactStrictMode: true,
   poweredByHeader: false,
   serverExternalPackages: ["exceljs", "undici", "cheerio"],
