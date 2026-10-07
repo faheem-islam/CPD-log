@@ -1,0 +1,234 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+  Gantry design tokens. Names are shared by light and dark; values are space-separated RGB channels
+  so Tailwind can apply opacity. Every text pair below was checked for WCAG AA contrast (4.5:1 text,
+  3:1 for focus rings). Where the brief's starting amber-ink failed on solid amber it was darkened.
+*/
+:root {
+  --bg: 241 244 247;
+  --surface: 255 255 255;
+  --surface-2: 233 238 243;
+  --ink: 20 32 43;
+  --muted: 76 91 105;
+  --sign: 15 47 99;
+  --sign-ink: 255 255 255;
+  --link: 15 47 99;
+  --route: 10 106 60;
+  --on-route: 255 255 255;
+  --amber: 242 169 0;
+  --amber-ink: 90 59 0;
+  --danger: 179 38 30;
+  --on-danger: 255 255 255;
+  --focus: 15 47 99;
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: 11 18 25;
+    --surface: 18 28 39;
+    --surface-2: 26 39 53;
+    --ink: 230 237 244;
+    --muted: 165 180 195;
+    --sign: 20 57 122;
+    --sign-ink: 255 255 255;
+    --link: 156 192 247;
+    --route: 82 198 140;
+    --on-route: 6 19 12;
+    --amber: 242 169 0;
+    --amber-ink: 247 200 92;
+    --danger: 255 144 135;
+    --on-danger: 26 5 5;
+    --focus: 242 169 0;
+    color-scheme: dark;
+  }
+}
+
+:root[data-theme="dark"] {
+  --bg: 11 18 25;
+  --surface: 18 28 39;
+  --surface-2: 26 39 53;
+  --ink: 230 237 244;
+  --muted: 165 180 195;
+  --sign: 20 57 122;
+  --sign-ink: 255 255 255;
+  --link: 156 192 247;
+  --route: 82 198 140;
+  --on-route: 6 19 12;
+  --amber: 242 169 0;
+  --amber-ink: 247 200 92;
+  --danger: 255 144 135;
+  --on-danger: 26 5 5;
+  --focus: 242 169 0;
+  color-scheme: dark;
+}
+
+@layer base {
+  html {
+    font-size: 17px;
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    @apply bg-bg text-ink font-sans antialiased;
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+  h1, h2, h3, h4 {
+    @apply font-display font-bold tracking-tight text-ink;
+  }
+  h1 { @apply text-2xl sm:text-3xl; }
+  h2 { @apply text-xl; }
+  h3 { @apply text-lg; }
+  a { @apply text-link underline underline-offset-2 decoration-1; }
+  a:hover { @apply decoration-2; }
+  :focus-visible {
+    outline: 3px solid rgb(var(--focus));
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+  /* Focus on the dark-blue plate and sidebar uses amber so it stays visible on blue. */
+  .on-sign :focus-visible,
+  .plate :focus-visible,
+  .chrome :focus-visible {
+    outline-color: rgb(var(--amber));
+  }
+  ::selection { background: rgb(var(--amber) / 0.45); }
+}
+
+@layer components {
+  .num { font-variant-numeric: tabular-nums lining-nums; }
+  .big-num { @apply font-display font-extrabold num text-4xl leading-none; }
+
+  /* Buttons say what happens. One primary action per screen. */
+  .btn {
+    @apply inline-flex min-h-tap min-w-tap items-center justify-center gap-2 rounded-xl px-5 py-2 text-base font-bold no-underline transition-colors;
+    cursor: pointer;
+  }
+  .btn:disabled, .btn[aria-disabled="true"] { @apply cursor-not-allowed opacity-50; }
+  .btn-primary { @apply bg-sign text-sign-ink; }
+  .btn-primary:hover:not(:disabled) { background: rgb(var(--sign) / 0.9); }
+  .btn-save { background: rgb(var(--route)); color: rgb(var(--on-route)); }
+  .btn-save:hover:not(:disabled) { background: rgb(var(--route) / 0.9); }
+  .btn-secondary { @apply bg-surface-2 text-ink; }
+  .btn-secondary:hover:not(:disabled) { background: rgb(var(--ink) / 0.1); }
+  .btn-quiet { @apply bg-transparent text-link px-3; }
+  .btn-quiet:hover:not(:disabled) { background: rgb(var(--ink) / 0.07); }
+  .btn-danger { background: rgb(var(--danger)); color: rgb(var(--on-danger)); }
+  .btn-amber { background: rgb(var(--amber)); color: #14202b; }
+  .btn-amber:hover:not(:disabled) { background: rgb(var(--amber) / 0.9); }
+
+  .input, .select, .textarea {
+    @apply block w-full min-h-tap rounded-xl bg-surface-2 px-4 py-2 text-base text-ink;
+    border: 0;
+    box-shadow: inset 0 -2px 0 rgb(var(--ink) / 0.35);
+  }
+  .textarea { @apply min-h-[6rem] py-3; }
+  .input::placeholder, .textarea::placeholder { color: rgb(var(--muted)); opacity: 1; }
+  .input:focus-visible, .select:focus-visible, .textarea:focus-visible {
+    outline-offset: 0;
+    box-shadow: inset 0 -2px 0 rgb(var(--focus));
+  }
+  .input[aria-invalid="true"], .textarea[aria-invalid="true"], .select[aria-invalid="true"] {
+    box-shadow: inset 0 -3px 0 rgb(var(--danger));
+  }
+  .label { @apply block text-sm font-bold text-ink mb-1; }
+  .hint { @apply text-sm text-muted; }
+  .field-error { @apply text-sm font-bold; color: rgb(var(--danger)); }
+
+  /* Tonal bands instead of borders and shadows. */
+  .band { @apply rounded-2xl bg-surface p-5 sm:p-6; }
+  .band-2 { @apply rounded-2xl bg-surface-2 p-5 sm:p-6; }
+  .eyebrow { @apply text-sm font-bold uppercase tracking-wide text-muted; }
+
+  /* Confidence badges. Always text plus a symbol, never colour alone. */
+  .badge { @apply inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-bold whitespace-nowrap; }
+  .badge-high { background: rgb(var(--route) / 0.16); color: rgb(var(--route)); }
+  .badge-low { background: rgb(var(--amber) / 0.22); color: rgb(var(--amber-ink)); }
+  .badge-estimate { background: rgb(var(--sign) / 0.12); color: rgb(var(--link)); }
+  .badge-missing { @apply bg-surface-2 text-muted; }
+  .badge-info { background: rgb(var(--sign) / 0.12); color: rgb(var(--link)); }
+  .badge-warn { background: rgb(var(--amber) / 0.22); color: rgb(var(--amber-ink)); }
+
+  .notice { @apply rounded-xl p-4 text-base; }
+  .notice-warn { background: rgb(var(--amber) / 0.2); color: rgb(var(--ink)); }
+  .notice-info { background: rgb(var(--sign) / 0.1); color: rgb(var(--ink)); }
+  .notice-error { background: rgb(var(--danger) / 0.14); color: rgb(var(--ink)); }
+  .notice-ok { background: rgb(var(--route) / 0.14); color: rgb(var(--ink)); }
+
+  /*
+    The one memorable element: the paste box as a UK road-sign plate. Deep blue, rounded corners,
+    a white inner border. Everything else stays quiet.
+  */
+  .plate {
+    position: relative;
+    @apply rounded-plate bg-sign text-sign-ink;
+    padding: 1.75rem 1.5rem;
+  }
+  .plate::before {
+    content: "";
+    position: absolute;
+    inset: 0.5rem;
+    border: 3px solid #fff;
+    border-radius: 0.9rem;
+    pointer-events: none;
+  }
+  .plate > * { position: relative; }
+  .plate h1, .plate h2, .plate label { color: inherit; }
+  .plate a { color: inherit; }
+  @media (min-width: 640px) { .plate { padding: 2.25rem 2.5rem; } }
+
+  /* Dark-blue chrome (sidebar, header, bottom bar). */
+  .chrome { @apply bg-sign text-sign-ink; }
+  .chrome a { color: inherit; text-decoration: none; }
+  .nav-link {
+    @apply flex min-h-tap items-center gap-3 rounded-xl px-3 py-2 text-base font-bold;
+  }
+  .nav-link[aria-current="page"] { background: rgb(255 255 255 / 0.16); }
+  .nav-link:hover { background: rgb(255 255 255 / 0.1); }
+
+  .skeleton {
+    @apply rounded-xl bg-surface-2;
+    animation: pulse 1.6s ease-in-out infinite;
+  }
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.55; } }
+
+  .table-wrap { @apply overflow-x-auto rounded-2xl bg-surface; }
+  .data-table { @apply w-full text-left text-sm; }
+  .data-table th { @apply px-3 py-3 text-xs font-bold uppercase tracking-wide text-muted bg-surface-2 whitespace-nowrap; }
+  .data-table td { @apply px-3 py-3 align-top; }
+  .data-table tbody tr:nth-child(even) { background: rgb(var(--surface-2) / 0.5); }
+
+  .progress-track { @apply h-3 w-full overflow-hidden rounded-full bg-surface-2; }
+  .progress-fill { @apply h-full rounded-full; background: rgb(var(--route)); }
+}
+
+/*
+  The single load animation: a CSS-only staggered rise. Put .reveal on a container; each direct child
+  rises in turn. Nothing else on the site animates on hover or scroll.
+*/
+@keyframes rise {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: none; }
+}
+.reveal > * {
+  animation: rise 0.5s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  animation-delay: calc(var(--i, 0) * 70ms);
+}
+.reveal > *:nth-child(1) { --i: 0; }
+.reveal > *:nth-child(2) { --i: 1; }
+.reveal > *:nth-child(3) { --i: 2; }
+.reveal > *:nth-child(4) { --i: 3; }
+.reveal > *:nth-child(5) { --i: 4; }
+.reveal > *:nth-child(6) { --i: 5; }
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal > * { animation: none; }
+  .skeleton { animation: none; }
+  * { scroll-behavior: auto !important; }
+}
+
+/* Never let a long unbroken title widen the page on a phone. */
+.min-w-0-all > * { min-width: 0; }
