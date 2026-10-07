@@ -97,3 +97,23 @@ describe("formatting", () => {
     expect(isoToUtcDate("2026-03-04").toISOString()).toBe("2026-03-04T00:00:00.000Z");
   });
 });
+
+describe("hardening", () => {
+  it("does not read a bare number range as a time range", () => {
+    expect(parseTimeRange("2-3 amendments")).toBeNull();
+    expect(parseTimeRange("pages 2-3")).toBeNull();
+    expect(parseTimeRange("10-11am")).toBe(60);
+  });
+  it("refuses durations with leftover numbers instead of silently dropping them", () => {
+    expect(parseDurationMinutes("2 x 1h")).toBeNull();
+    expect(parseDurationMinutes("3 sessions of 1h")).toBeNull();
+    expect(parseDurationMinutes("1,5 hours")).toBe(90);
+  });
+  it("copes with hostile input quickly", () => {
+    const t = Date.now();
+    expect(parseDurationMinutes("1".repeat(50000) + "h")).toBeNull();
+    expect(parseDurationMinutes("1 ".repeat(20000))).toBeNull();
+    expect(parseTimeRange("1".repeat(50000))).toBeNull();
+    expect(Date.now() - t).toBeLessThan(1000);
+  });
+});

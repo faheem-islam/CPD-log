@@ -133,10 +133,12 @@ export function currentYearUk(now: Date = new Date()): number {
 /** Minutes between two clock times in the same text, e.g. "18:00-19:00", "6pm to 7:30pm", "18.00 – 19.00". */
 export function parseTimeRange(input: string | null | undefined): number | null {
   if (!input) return null;
-  const clock = String.raw`(\d{1,2})(?:[:.](\d{2}))?\s*(am|pm)?`;
+  const clock = String.raw`(\d{1,2})(?:[:.](\d{2}))?\s*(am|pm)?(?![a-z])`;
   const re = new RegExp(String.raw`(?<![\d:.])${clock}\s*(?:-|–|—|to|until)\s*${clock}(?![\d])`, "i");
   const m = re.exec(input);
   if (!m) return null;
+  // "2-3 reports" is not a time range: bare hours need minutes or am/pm somewhere to count as clock times.
+  if (!m[2] && !m[3] && !m[5] && !m[6]) return null;
   const to24 = (h: string | undefined, min: string | undefined, ap: string | undefined): number | null => {
     let hh = Number(h);
     const mm = min ? Number(min) : 0;
@@ -176,19 +178,23 @@ export function parseIsoDurationMinutes(input: string | null | undefined): numbe
 export function parseDurationMinutes(input: string | null | undefined): number | null {
   if (!input) return null;
   const s = input.trim().toLowerCase();
-  if (!s) return null;
+  // Real duration labels are short. A cap keeps hostile text from costing time.
+  if (!s || s.length > 60) return null;
   const clock = /^(\d{1,3}):([0-5]\d)$/.exec(s);
   if (clock) return Number(clock[1]) * 60 + Number(clock[2]) || null;
-  const re = /(\d+(?:\.\d+)?)\s*(hours?|hrs?|h|minutes?|mins?|m)(?![a-z])/g;
+  const token = /(\d{1,6}(?:[.,]\d{1,2})?)\s*(hours?|hrs?|h|minutes?|mins?|m)(?![a-z])/g;
   let total = 0;
   let found = false;
-  let match: RegExpExecArray | null;
-  while ((match = re.exec(s))) {
+  for (const match of s.matchAll(token)) {
     found = true;
-    const n = Number(match[1]);
+    const n = Number((match[1] ?? "").replace(",", "."));
     total += (match[2] ?? "").startsWith("h") ? n * 60 : n;
   }
-  return found && total > 0 ? Math.round(total) : null;
+  if (!found) return null;
+  // Anything numeric left over ("2 x 1h", "3 sessions of 1h") would be silently dropped, so refuse it.
+  const leftover = s.replace(token, " ");
+  if (/\d/.test(leftover)) return null;
+  return total > 0 ? Math.round(total) : null;
 }
 
 export function roundHours(h: number): number {

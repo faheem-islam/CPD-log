@@ -4,8 +4,11 @@ import { z } from "zod";
 const blankToUndefined = (v: unknown) => (typeof v === "string" && v.trim() === "" ? undefined : v);
 const optString = z.preprocess(blankToUndefined, z.string().trim().optional());
 const optUrl = z.preprocess(blankToUndefined, z.string().url("must be a full URL such as https://abc.supabase.co").optional());
-const optInt = (def: number) =>
-  z.preprocess(blankToUndefined, z.coerce.number().int("must be a whole number").min(0, "must be 0 or more").default(def));
+const optInt = (def: number, max = 100000) =>
+  z.preprocess(
+    blankToUndefined,
+    z.coerce.number().int("must be a whole number").min(0, "must be 0 or more").max(max, `must be ${max} or less`).default(def),
+  );
 const optBool = z.preprocess(
   blankToUndefined,
   z

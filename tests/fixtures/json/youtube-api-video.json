@@ -1,0 +1,21 @@
+{
+  "kind": "youtube#videoListResponse",
+  "etag": "example-etag",
+  "pageInfo": { "totalResults": 1, "resultsPerPage": 1 },
+  "items": [
+    {
+      "kind": "youtube#video",
+      "etag": "example-item-etag",
+      "id": "dQw4w9WgXcQ",
+      "snippet": {
+        "publishedAt": "2024-05-14T08:30:12Z",
+        "channelId": "UC-example-channel",
+        "title": "Introduction to temporary traffic management",
+        "description": "An invented description.",
+        "channelTitle": "Example Civils Channel",
+        "liveBroadcastContent": "none"
+      },
+      "contentDetails": { "duration": "PT1H2M45S", "dimension": "2d", "definition": "hd" }
+    }
+  ]
+}

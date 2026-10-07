@@ -1,0 +1,10 @@
+{
+  "kind": "youtube#videoListResponse",
+  "items": [
+    {
+      "id": "abcdefghijk",
+      "snippet": { "publishedAt": "2026-06-30T23:30:00Z", "title": "A summer evening upload", "channelTitle": "Example Civils Channel", "liveBroadcastContent": "none" },
+      "contentDetails": { "duration": "PT10M" }
+    }
+  ]
+}

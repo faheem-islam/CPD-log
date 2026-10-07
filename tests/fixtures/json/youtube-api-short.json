@@ -1,0 +1,10 @@
+{
+  "kind": "youtube#videoListResponse",
+  "items": [
+    {
+      "id": "abcdefghijk",
+      "snippet": { "publishedAt": "2026-01-02T23:59:59Z", "title": "A twenty second clip", "channelTitle": "Example Civils Channel", "liveBroadcastContent": "none" },
+      "contentDetails": { "duration": "PT20S" }
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "kind": "youtube#videoListResponse",
+  "items": [
+    {
+      "id": "UPCOMING_01",
+      "snippet": { "publishedAt": "2026-09-30T10:00:00Z", "title": "Live Q and A on site safety", "channelTitle": "Example Civils Channel", "liveBroadcastContent": "upcoming" },
+      "contentDetails": { "duration": "P0D" },
+      "liveStreamingDetails": { "scheduledStartTime": "2026-10-20T18:00:00Z" }
+    }
+  ]
+}
