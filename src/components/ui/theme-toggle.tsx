@@ -31,7 +31,13 @@ function apply(choice: Choice) {
 /** Cycles system, light, dark. Follows the system setting until the user picks one. */
 export function ThemeToggle({ className = "" }: { className?: string }) {
   const [choice, setChoice] = useState<Choice>("system");
-  useEffect(() => setChoice(read()), []);
+  useEffect(() => {
+    setChoice(read());
+    // Follow changes made elsewhere on the page, such as the Appearance choices in Settings.
+    const observer = new MutationObserver(() => setChoice(read()));
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+    return () => observer.disconnect();
+  }, []);
   const Icon = choice === "system" ? Monitor : choice === "light" ? Sun : Moon;
   const next = ORDER[(ORDER.indexOf(choice) + 1) % ORDER.length] ?? "system";
   return (
