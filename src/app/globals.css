@@ -89,6 +89,14 @@
     outline-offset: 2px;
     border-radius: 4px;
   }
+  /*
+    Headings and the main region take focus from code when a step changes, so screen readers and keyboard
+    users land in the right place. They are not controls, so they get no outline box.
+  */
+  [tabindex="-1"]:focus,
+  [tabindex="-1"]:focus-visible {
+    outline: none;
+  }
   /* Focus on the dark-blue plate and sidebar uses amber so it stays visible on blue. */
   .on-sign :focus-visible,
   .plate :focus-visible,
